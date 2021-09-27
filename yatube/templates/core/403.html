@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block title %}Ошибка 403{% endblock %}
+{% block content %}
+  <h1>Custom 403</h1>
+  <p>У вас нет прав для просмотра этой страницы, залогинитесь или зарегистрируйтесь.</p>
+  <a href="{% url 'users:login' %}"> Залогиниться</a>
+  <a href="{% url 'users:signup' %}"> Зарегистрироваться</a>
+{% endblock %} 

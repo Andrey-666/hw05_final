@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Технологии{% endblock %}
+{% block content %}
+<div class="row">
+  <h1 class="border-top text-center py-2">Используемые инструменты</h1>
+  <aside class="col-12 col-md-4">
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">
+        <b>Python</b>
+        <img src="{% static 'img/pythonmem.png' %}" width="640" height="480">
+      </li>
+      <li class="list-group-item">
+        <b>Django</b>
+        <img src="{% static 'img/django.png' %}" width="640" height="480">
+      </li>
+      <li class="list-group-item">
+        <b>Щепотка не очень качественной магии</b>
+        <img src="{% static 'img/magic.png' %}" width="640" height="480">
+      </li>
+    </ul>
+  </aside>
+  <article class="col-12 col-md-9">
+  </article>
+</div>
+{% endblock %} 
