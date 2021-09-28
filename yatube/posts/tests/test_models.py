@@ -80,7 +80,12 @@ class CommentModelTest(TestCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.user = User.objects.create_user(username='auth')
+        cls.post = Post.objects.create(
+            author=cls.user,
+            text='Тестовая группа',
+        )
         cls.comment = Comment.objects.create(
+            post=cls.post,
             text='text',
             author=cls.user
         )
@@ -95,13 +100,13 @@ class CommentModelTest(TestCase):
         """verbose_name поля text совпадает с ожидаемым."""
         comment = CommentModelTest.comment
         verbose_text = comment._meta.get_field('text').verbose_name
-        self.assertEqual(verbose_text, 'Текст поста')
+        self.assertEqual(verbose_text, 'Текст комментария')
 
     def test_help_text(self):
         """help_text поля text совпадает с ожидаемым."""
         comment = CommentModelTest.comment
         help_text_text = comment._meta.get_field('text').help_text
-        self.assertEqual(help_text_text, 'Введите текст поста')
+        self.assertEqual(help_text_text, 'Добавьте комментарий')
 
 
 class FollowModelTest(TestCase):
