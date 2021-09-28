@@ -247,12 +247,11 @@ class PostViewTest(TestCase):
         self.assertEqual(response3.context['page_obj'][0].text, 'test-text')
         self.assertEqual(len(response3.context['page_obj'].object_list), 2)
 
-    def test_follows(self):
+    def test_follow_to_author(self):
         """"Тест подписки от отписки от автора."""
         profile_redirect = reverse('posts:profile',
                                    kwargs={'username':
                                            PostViewTest.user.username})
-        # тестируем подписку на автора
         author_follow = Follow.objects.count()
         response = self.authorized_client2.get(reverse(
             'posts:profile_follow',
@@ -260,7 +259,11 @@ class PostViewTest(TestCase):
         ))
         self.assertRedirects(response, profile_redirect)
         self.assertEqual(Follow.objects.count(), author_follow + 1)
-        # тестируем отписку от автора
+
+    def test_unfollow_to_author(self):
+        profile_redirect = reverse('posts:profile',
+                                   kwargs={'username':
+                                           PostViewTest.user.username})
         author_unfollow = Follow.objects.count()
         response = self.authorized_client.get(reverse(
             'posts:profile_unfollow',

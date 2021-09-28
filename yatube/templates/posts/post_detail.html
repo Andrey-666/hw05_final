@@ -18,12 +18,12 @@
           <li class="list-group-item">
             Группа: <b>{{ group }}</b> 
             <a href="{% url 'posts:group_list' post.group.slug %}"><br>
-              все записи группы
+              <b>Все записи группы</b>
             </a>
           </li>
         {% endif %}
         <li class="list-group-item">
-          Автор: <b>{{ author }}</b>
+          Автор: <a href="{% url 'posts:profile' post.author %}"><b>{{ post.author.get_full_name }}</b></a>
         </li>
         <li class="list-group-item justify-content-between">
           Всего постов автора:  <b><span >{{ posts_count }}</span></b> 

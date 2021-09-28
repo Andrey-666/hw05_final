@@ -38,10 +38,13 @@ class PostURLTest(TestCase):
             f'/posts/{self.post.id}/': 'posts/post_detail.html',
             f'/posts/{self.post.id}/edit/': 'posts/create_post.html',
             '/create/': 'posts/create_post.html',
+            '/follow/': 'posts/follow_index.html',
         }
+        adress_list = ['/create/',
+                       '/follow/']
         for adress, template in templates_url_names.items():
             with self.subTest(adress=adress):
-                if adress == '/create/':
+                if adress in adress_list:
                     response = self.authorized_client.get(adress)
                     self.assertTemplateUsed(response, template)
                 elif adress == f'/posts/{self.post.id}/edit/':
@@ -53,17 +56,26 @@ class PostURLTest(TestCase):
 
     def test_urls_exists_at_desired_location(self):
         url_status = {
-            '/': HTTPStatus.OK.value,
+            '/': HTTPStatus.OK,
             f'/group/{self.group.slug}/': HTTPStatus.OK,
             f'/profile/{self.user}/': HTTPStatus.OK,
             f'/posts/{self.post.id}/': HTTPStatus.OK,
             f'/posts/{self.post.id}/edit/': HTTPStatus.OK,
             '/create/': HTTPStatus.OK,
             '/unexisting_page/': HTTPStatus.NOT_FOUND,
+            f'/posts/{self.post.id}/comment': HTTPStatus.FOUND,
+            f'/profile/{self.user}/follow/': HTTPStatus.FOUND,
+            f'/profile/{self.user}/unfollow/': HTTPStatus.FOUND,
+            '/follow/': HTTPStatus.OK,
         }
+        adress_list = ['/create/',
+                       f'/profile/{self.user}/unfollow/',
+                       f'/profile/{self.user}/follow/',
+                       f'/posts/{self.post.id}/comment/',
+                       '/follow/']
         for adress, http_status in url_status.items():
             with self.subTest(adress=adress):
-                if adress == '/create/':
+                if adress in adress_list:
                     response = self.authorized_client.get(adress)
                     self.assertEqual(response.status_code, http_status)
                 elif adress == f'/posts/{self.post.id}/edit/':

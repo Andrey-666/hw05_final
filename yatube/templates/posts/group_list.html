@@ -7,8 +7,8 @@
   <p>{{ group.description }}</p>
   {% for post in page_obj %}
     <ul>
-      <li>Автор: {{ post.author.get_full_name }}</li>
-      <li>Дата публикации: {{ post.pub_date|date:"d E Y" }}</li>
+      <li>Автор: <a href="{% url 'posts:profile' post.author %}"><b>{{ post.author.get_full_name }}</b></a></li>
+      <li>Дата публикации: <b>{{ post.pub_date|date:"d E Y" }}</b></li>
     </ul>      
     <p>{{ post.text }}</p>
     {% if not forloop.last %}<hr>{% endif %}

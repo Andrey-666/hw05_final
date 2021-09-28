@@ -1,7 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.test import TestCase
-
-from ..models import Group, Post
+from ..models import Group, Post, Comment, Follow
 
 User = get_user_model()
 
@@ -27,7 +26,7 @@ class PostModelTest(TestCase):
         post = PostModelTest.post
         verbose_text = post._meta.get_field('text').verbose_name
         verbose_author = post._meta.get_field('author').verbose_name
-        self.assertEqual(verbose_text, 'Текст')
+        self.assertEqual(verbose_text, 'Текст поста')
         self.assertEqual(verbose_author, 'Автор')
 
     def test_help_text(self):
@@ -74,3 +73,62 @@ class GroupModelTest(TestCase):
         self.assertEqual(help_text_title, 'Введите имя сообщества')
         self.assertEqual(help_text_slug, 'Введите адрес')
         self.assertEqual(help_text_description, 'Описание сообщества')
+
+
+class CommentModelTest(TestCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.user = User.objects.create_user(username='auth')
+        cls.comment = Comment.objects.create(
+            text='text',
+            author=cls.user
+        )
+
+    def test_models_have_correct_object_names(self):
+        """Проверяем, что у моделей корректно работает __str__."""
+        comment = CommentModelTest.comment
+        comment_text = comment.text
+        self.assertEqual(comment_text, str(comment))
+
+    def test_verbose_name(self):
+        """verbose_name поля text совпадает с ожидаемым."""
+        comment = CommentModelTest.comment
+        verbose_text = comment._meta.get_field('text').verbose_name
+        self.assertEqual(verbose_text, 'Текст поста')
+
+    def test_help_text(self):
+        """help_text поля text совпадает с ожидаемым."""
+        comment = CommentModelTest.comment
+        help_text_text = comment._meta.get_field('text').help_text
+        self.assertEqual(help_text_text, 'Введите текст поста')
+
+
+class FollowModelTest(TestCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.username = User.objects.create_user(username='auth')
+        cls.author = User.objects.create_user(username='author')
+        cls.follow = Follow.objects.create(
+            author=cls.username,
+            user=cls.author
+        )
+
+    def test_verbose_name(self):
+        """verbose_name поля text и user совпадает с ожидаемым."""
+        follow = FollowModelTest.follow
+        verbose_author = follow._meta.get_field('author').verbose_name
+        self.assertEqual(verbose_author, 'Автор')
+        follow = FollowModelTest.follow
+        verbose_user = follow._meta.get_field('user').verbose_name
+        self.assertEqual(verbose_user, 'Фолловер')
+
+    def test_help_text(self):
+        """help_text поля text и user совпадает с ожидаемым."""
+        follow = FollowModelTest.follow
+        help_text_author = follow._meta.get_field('author').help_text
+        self.assertEqual(help_text_author, 'Подпишитесь на меня')
+        follow = FollowModelTest.follow
+        help_text_user = follow._meta.get_field('user').help_text
+        self.assertEqual(help_text_user, 'Подпишитесь на автора')

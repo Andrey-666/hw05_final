@@ -26,7 +26,7 @@ class Group(models.Model):
 
 class Post(models.Model):
     text = models.TextField(
-        verbose_name='Текст',
+        verbose_name='Текст поста',
         help_text='Введите текст поста'
     )
     pub_date = models.DateTimeField(
@@ -47,7 +47,7 @@ class Post(models.Model):
         blank=True,
         null=True,
         verbose_name='Сообщество',
-        help_text='Введите имя сообщества'
+        help_text='Группа, к которой будет относиться пост'
     )
     image = models.ImageField(
         verbose_name='Картинка',
@@ -85,15 +85,31 @@ class Comment(models.Model):
         auto_now_add=True,
     )
 
+    def __str__(self):
+        return self.text
+
 
 class Follow(models.Model):
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
         related_name='follower',
+        verbose_name='Фолловер',
+        help_text='Подпишитесь на автора',
     )
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
         related_name='following',
+        verbose_name='Автор',
+        help_text='Подпишитесь на меня',
     )
+
+    def __str__(self):
+        return self.author
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['author', 'user'],
+                                    name='unique_fields')
+        ]
