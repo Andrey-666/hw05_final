@@ -20,6 +20,10 @@ class Group(models.Model):
         help_text='Описание сообщества'
     )
 
+    class Meta:
+        verbose_name = 'Группа'
+        verbose_name_plural = 'Группы'
+
     def __str__(self):
         return self.title
 
@@ -85,8 +89,12 @@ class Comment(models.Model):
         auto_now_add=True,
     )
 
+    class Meta:
+        verbose_name = 'Комментарий'
+        verbose_name_plural = 'Комментарии'
+
     def __str__(self):
-        return self.text
+        return self.text[:15]
 
 
 class Follow(models.Model):
@@ -105,11 +113,15 @@ class Follow(models.Model):
         help_text='Подпишитесь на меня',
     )
 
+    class Meta:
+        verbose_name = 'Подписка'
+        verbose_name_plural = 'Подписки'
+
     def __str__(self):
         return self.author
 
     class Meta:
-        constraints = [
-            models.UniqueConstraint(fields=['author', 'user'],
+        constraints = (
+            models.UniqueConstraint(fields=('author', 'user'),
                                     name='unique_fields')
-        ]
+        )

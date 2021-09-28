@@ -224,12 +224,12 @@ class PostViewTest(TestCase):
 
     def test_add_new_comment(self):
         """Тест правильного создания комментария."""
-        comment_count = Comment.objects.count()
         response = self.authorized_client.get(
             reverse('posts:post_detail',
                     kwargs={'post_id': PostViewTest.post.id})
         )
-        self.assertEqual(len(response.context['comments']), comment_count)
+        form_field = response.context.get('form').fields.get('text')
+        self.assertIsInstance(form_field, forms.fields.CharField)
 
     def test_cache_index_page(self):
         """Тест кэширования главной страницы."""

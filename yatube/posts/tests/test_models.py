@@ -93,7 +93,7 @@ class CommentModelTest(TestCase):
     def test_models_have_correct_object_names(self):
         """Проверяем, что у моделей корректно работает __str__."""
         comment = CommentModelTest.comment
-        comment_text = comment.text
+        comment_text = comment.text[:15]
         self.assertEqual(comment_text, str(comment))
 
     def test_verbose_name(self):
