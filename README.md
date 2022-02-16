@@ -21,7 +21,7 @@
 ***
 ### Об авторе  
 Кузнецов Андрей
-andrey.66677@yandex.ru
+<andrey.66677@yandex.ru>
 
 ### Используемые технологии 
 - [Python 3.8.5](https://www.python.org/)
