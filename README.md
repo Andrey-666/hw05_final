@@ -1,6 +1,16 @@
 # Yatube
 Сайт для публикации личных дневников.
 
+## Стек технологий:
+
+- Python 3
+- Django 2.2
+- HTML
+- CSS
+- SQLite
+- Git
+
+
 ### Инструкция для развертывания проекта локально
 - Клонируйте репозиторий:  
 ```git clone https://github.com/Andrey-666/hw05_final.git```
@@ -23,6 +33,3 @@
 Кузнецов Андрей    
 <andrey.66677@yandex.ru>
 
-### Используемые технологии 
-- [Python 3.8.5](https://www.python.org/)
-- [Django 2.2.16](https://www.djangoproject.com/)
